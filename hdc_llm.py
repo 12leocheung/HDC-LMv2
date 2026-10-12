@@ -7,7 +7,6 @@ DIM = 125000
 w = 3
 k = 3
 END = "<end>"
-HANDWRITTEN = 82
 DATASET_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dataset.txt")
 
 t1 = {}
@@ -111,20 +110,6 @@ def generate(prompt, n=20, top_k=5, temp=0.1):
         words.append(nxt)
     return " ".join(words)
 
-def evaluate(sentences):
-    top1 = top5 = total = 0
-    for sentence in sentences:
-        words = tokenize(sentence) + [END]
-        for i in range(1, len(words)):
-            ranked = rank(words[:i], 5)
-            if not ranked:
-                continue
-            total += 1
-            names = [x for x, _ in ranked]
-            top1 += names[0] == words[i]
-            top5 += words[i] in names
-    return top1 / total, top5 / total
-
 def fresh(train_set):
     global hdc
     t1.clear()
@@ -132,16 +117,6 @@ def fresh(train_set):
     hdc = HDC(DIM)
     initiate(train_set)
     train(train_set)
-
-def holdout_test(every=8):
-    test = dataset[::every]
-    train_set = [s for i, s in enumerate(dataset) if i % every]
-    fresh(train_set)
-    return evaluate(train_set[:1000]), evaluate(test)
-
-def handwritten_test():
-    fresh(dataset[HANDWRITTEN:])
-    return evaluate(dataset[:HANDWRITTEN])
 
 def memory():
     import pickle
@@ -178,9 +153,3 @@ if __name__ == "__main__":
     for _ in range(3):
         print(generate("the old cat"))
     memory()
-
-    (tr1, tr5), (te1, te5) = holdout_test()
-    print(f"train sentences:       top1 {tr1:.0%}  top5 {tr5:.0%}")
-    print(f"held-out sentences:    top1 {te1:.0%}  top5 {te5:.0%}")
-    (hw1, hw5) = handwritten_test()
-    print(f"handwritten sentences: top1 {hw1:.0%}  top5 {hw5:.0%}")
