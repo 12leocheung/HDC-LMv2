@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="260" viewBox="0 0 1120 260" role="img" aria-labelledby="title desc">
+  <title id="title">How the tiny HDC text generator works</title>
+  <desc id="desc">Sentences become tokens, tokens get random vectors, training saves word associations, and a prompt is scored to rank next-word guesses.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#53657d"/></marker>
+    <style>
+      .box{rx:18;stroke-width:2}.head{font:700 18px system-ui,sans-serif;fill:#17243a}.body{font:15px system-ui,sans-serif;fill:#33445c}.note{font:13px system-ui,sans-serif;fill:#586b82}.arrow{stroke:#53657d;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1120" height="260" rx="22" fill="#f7f9fc"/>
+  <text x="560" y="35" text-anchor="middle" class="head" font-size="21">From example sentences to a next-word guess</text>
+  <g transform="translate(24 72)"><rect class="box" width="190" height="132" fill="#e8f3ff" stroke="#78aee8"/><text x="95" y="34" text-anchor="middle" class="head">1. Sentences</text><text x="95" y="67" text-anchor="middle" class="body">“the cat slept”</text><text x="95" y="92" text-anchor="middle" class="body">“the dog ran”</text><text x="95" y="117" text-anchor="middle" class="note">dataset.txt</text></g>
+  <path class="arrow" d="M220 138 H247"/>
+  <g transform="translate(256 72)"><rect class="box" width="190" height="132" fill="#e9f8f0" stroke="#75c39a"/><text x="95" y="34" text-anchor="middle" class="head">2. Tokens</text><text x="95" y="69" text-anchor="middle" class="body">[the, cat, slept]</text><text x="95" y="96" text-anchor="middle" class="note">lowercase words</text><text x="95" y="117" text-anchor="middle" class="note">plus &lt;end&gt;</text></g>
+  <path class="arrow" d="M452 138 H479"/>
+  <g transform="translate(488 72)"><rect class="box" width="190" height="132" fill="#fff4df" stroke="#e4b65d"/><text x="95" y="34" text-anchor="middle" class="head">3. Word vectors</text><text x="95" y="68" text-anchor="middle" class="body">cat → + − + + − …</text><text x="95" y="96" text-anchor="middle" class="note">2,000 random signs</text><text x="95" y="117" text-anchor="middle" class="note">stored in t1</text></g>
+  <path class="arrow" d="M684 138 H711"/>
+  <g transform="translate(720 72)"><rect class="box" width="190" height="132" fill="#f3edff" stroke="#ad91df"/><text x="95" y="34" text-anchor="middle" class="head">4. Associations</text><text x="95" y="68" text-anchor="middle" class="body">context → next-word sums</text><text x="95" y="96" text-anchor="middle" class="note">trained into t2</text><text x="95" y="117" text-anchor="middle" class="note">distances 1–3</text></g>
+  <path class="arrow" d="M916 138 H943"/>
+  <g transform="translate(952 72)"><rect class="box" width="144" height="132" fill="#ffecef" stroke="#e3919c"/><text x="72" y="34" text-anchor="middle" class="head">5. Guess</text><text x="72" y="69" text-anchor="middle" class="body">rank words</text><text x="72" y="96" text-anchor="middle" class="note">by similarity</text><text x="72" y="117" text-anchor="middle" class="note">then sample</text></g>
+  <text x="560" y="238" text-anchor="middle" class="note">Training builds associations; inference uses a prompt to query those associations.</text>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="350" viewBox="0 0 960 350" role="img" aria-labelledby="title desc">
+  <title id="title">Illustration of vectors, binding, and bundling</title>
+  <desc id="desc">Small example vectors show that binding multiplies matching entries and bundling takes the majority sign at each position.</desc>
+  <defs><style>
+    .head{font:700 19px system-ui,sans-serif;fill:#17243a}.label{font:15px system-ui,sans-serif;fill:#33445c}.small{font:13px system-ui,sans-serif;fill:#586b82}.cell{stroke:#fff;stroke-width:3}.plus{fill:#dff3e8}.minus{fill:#ffe3e7}.card{fill:#fff;stroke:#dce4ee;stroke-width:2;rx:16}
+  </style></defs>
+  <rect width="960" height="350" rx="22" fill="#f7f9fc"/>
+  <text x="480" y="38" text-anchor="middle" class="head" font-size="22">Tiny 5-position examples (the real vectors have 2,000 positions)</text>
+  <rect x="26" y="62" width="286" height="252" class="card"/><text x="169" y="94" text-anchor="middle" class="head">A. A random vector</text><text x="169" y="122" text-anchor="middle" class="small">One token’s fingerprint</text>
+  <g text-anchor="middle" class="label"><rect x="69" y="149" width="48" height="48" rx="8" class="cell plus"/><text x="93" y="180">+1</text><rect x="119" y="149" width="48" height="48" rx="8" class="cell minus"/><text x="143" y="180">−1</text><rect x="169" y="149" width="48" height="48" rx="8" class="cell plus"/><text x="193" y="180">+1</text><rect x="219" y="149" width="48" height="48" rx="8" class="cell plus"/><text x="243" y="180">+1</text><rect x="269" y="149" width="30" height="48" rx="8" class="cell minus"/><text x="284" y="180">−1</text></g>
+  <text x="169" y="235" text-anchor="middle" class="label">t1["cat"]</text><text x="169" y="265" text-anchor="middle" class="small">Each position is randomly −1 or +1.</text>
+  <rect x="337" y="62" width="286" height="252" class="card"/><text x="480" y="94" text-anchor="middle" class="head">B. Bind (multiply)</text><text x="480" y="122" text-anchor="middle" class="small">Entry by entry: a × b</text>
+  <text x="480" y="158" text-anchor="middle" class="label">[+1, −1, +1, +1, −1]</text><text x="480" y="185" text-anchor="middle" class="label">× [−1, −1, +1, −1, +1]</text><path d="M375 200 H585" stroke="#c8d3df" stroke-width="2"/><text x="480" y="231" text-anchor="middle" class="head">[−1, +1, +1, −1, −1]</text><text x="480" y="272" text-anchor="middle" class="small">Defined in the code; not used by train().</text>
+  <rect x="648" y="62" width="286" height="252" class="card"/><text x="791" y="94" text-anchor="middle" class="head">C. Bundle (majority vote)</text><text x="791" y="122" text-anchor="middle" class="small">Add each position, keep its sign</text>
+  <text x="791" y="158" text-anchor="middle" class="label">[+1, −1, +1, +1, −1]</text><text x="791" y="185" text-anchor="middle" class="label">+ [−1, −1, +1, −1, +1]</text><path d="M686 200 H896" stroke="#c8d3df" stroke-width="2"/><text x="791" y="231" text-anchor="middle" class="head">[ 0, −2, +2, 0, 0 ] → signs</text><text x="791" y="256" text-anchor="middle" class="label">[±1, −1, +1, ±1, ±1]</text><text x="791" y="284" text-anchor="middle" class="small">Ties are chosen randomly in this code.</text>
+</svg>
