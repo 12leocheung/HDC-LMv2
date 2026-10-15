@@ -1,0 +1,5 @@
+d=256
+w=3
+seed=0
+words=779
+end_id=10
