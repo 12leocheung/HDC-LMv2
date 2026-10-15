@@ -7,6 +7,7 @@ Plug the board in over USB, run this, and type prompts.
 """
 import sys
 import time
+import traceback
 
 try:
     import serial
@@ -114,25 +115,46 @@ def main():
         try:
             prompt = input("> ").strip()
         except (EOFError, KeyboardInterrupt):
-            continue
+            break
         if prompt.lower() in ("exit", "quit"):
             break
         if not prompt:
             continue
-        ser.reset_input_buffer()
-        ser.write((prompt + "\n").encode("utf-8"))
-        reply = wait_for(ser, ["HDC:", "HDC_ERR:"], 60)
+        try:
+            ser.reset_input_buffer()
+            ser.write((prompt + "\n").encode("utf-8"))
+            reply = wait_for(ser, ["HDC:", "HDC_ERR:"], 60)
+        except (serial.SerialException, OSError) as e:
+            print(f"Lost the connection to the board ({e}). Reconnecting...")
+            try:
+                ser.close()
+            except Exception:
+                pass
+            ser = connect(port)
+            if not ser:
+                print("Could not reconnect. Check the cable and run this again.")
+                break
+            print("Reconnected. Type your prompt again.")
+            continue
+        except Exception:
+            traceback.print_exc()
+            continue
+
         if reply is None:
             print("(no answer from the board)")
         elif reply.startswith("HDC_ERR:"):
             print("Board error: " + reply[8:])
         else:
             text = reply[4:].strip()
-            print(prompt + " " + text + f" (took {time.time() - start:.2f}s)" if text else "(no prediction for that)") + f" (took {time.time() - start:.2f}s)"
+            print(prompt + " " + text + f" (took {time.time() - start:.2f}s)" if text else "(no prediction for that)" + f" (took {time.time() - start:.2f}s)")
+            print("\n")
     ser.close()
+
 
 if __name__ == "__main__":
     try:
         main()
-    finally:
-        input("\nPress Enter to close...")
+    except Exception:
+        print("\nSomething went wrong:")
+        traceback.print_exc()
+    input("\nPress Enter to close...")
