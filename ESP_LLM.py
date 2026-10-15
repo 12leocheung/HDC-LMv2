@@ -114,7 +114,7 @@ def main():
         try:
             prompt = input("> ").strip()
         except (EOFError, KeyboardInterrupt):
-            break
+            continue
         if prompt.lower() in ("exit", "quit"):
             break
         if not prompt:
